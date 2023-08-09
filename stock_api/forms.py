@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
-from market.models import User
+from stock_api.models import User
 
 # RegisterForm is a class that defines the fields for the Form for creating user accounts
 class RegisterForm(FlaskForm):

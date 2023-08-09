@@ -13,4 +13,4 @@ login_manager = LoginManager(app)
 login_manager.login_view = "login" # name of the route to our login page
 login_manager.login_message_category = "info" # category for our flash message
 login_manager.login_message = "Please login to access the Market page." # flash message contents
-from market import routes
+from stock_api import routes

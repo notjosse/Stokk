@@ -1,8 +1,7 @@
-# Sample Flask Market App
+# Stock API Flask App
 
-This app is based on a free course from freecodecamp.org posted to youtube.
-
-Video link: https://youtu.be/Qr4QMBUPxWo
+This app will contain an api that returns data on queried stock market apps.
+The backend will call the iexcloud cloud api to fetch financial data.
 
 ## Import Requirements
 

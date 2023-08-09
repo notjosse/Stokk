@@ -1,8 +1,8 @@
-from market import app
+from stock_api import app
 from flask import render_template, redirect, url_for, flash, request
-from market.models import Item, User
-from market.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm
-from market import db
+from stock_api.models import Item, User
+from stock_api.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm
+from stock_api import db
 from flask_login import login_user, logout_user, login_required, current_user
 
 # routes to the home page if route is: / or /home
