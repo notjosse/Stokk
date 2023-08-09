@@ -1,0 +1,14 @@
+<!-- Jinja syntax to inherit template properties form the base.html template -->
+{% extends 'base.html' %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css')}}">
+{% endblock %}
+
+{% block title %}
+  <title>Home Page</title>
+{% endblock %}
+
+{% block body %}
+  <p>This is the content for the home page.</p>
+{% endblock %}
