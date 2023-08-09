@@ -1,4 +1,4 @@
-<!-- Jinja syntax to inherit template properties form the base.html template -->
+<!-- Jinja syntax to inherit template properties from the base.html template -->
 {% extends 'base.html' %}
 
 {% block css %}
@@ -19,6 +19,9 @@
   <div class="row" style="margin-top: 20px; margin-left: 20px;">
     <div class="col-8">
       <h2>Available Items</h2>
+      {% include 'includes/add_item_modal.html' %}
+      <button type="button" class="btn btn-outline-light" style="margin-bottom: 15px;" data-toggle="modal" data-target="#addItemModal">Add Item</button>
+      
       <table class="table table-hover table-dark">
         <thead>
           <tr>

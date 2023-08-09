@@ -2,6 +2,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+import json
+
+# Nasdaq api key
+api_key = json.load(open('./api_key.json', 'r'))
 
 # App Configs
 app = Flask(__name__)

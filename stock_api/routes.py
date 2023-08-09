@@ -1,16 +1,29 @@
-from stock_api import app
+from stock_api import app, api_key
 from flask import render_template, redirect, url_for, flash, request
 from stock_api.models import Item, User
-from stock_api.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm
+from stock_api.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm, CreateItemForm
 from stock_api import db
 from flask_login import login_user, logout_user, login_required, current_user
+import requests
 
 # routes to the home page if route is: / or /home
-@app.route("/")
-@app.route("/home")
+@app.route("/", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template('home.html')
+
+    data = None
+
+    if request.method == "POST":
+        ticker = request.form.get('stock-query')
+
+        if ticker and len(ticker) <= 4:
+            r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte=1997-02-01&date.lte=2017-01-01&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key["key"]}')
+            data = r.json()["datatable"]["data"]
+            if r.json()["datatable"]["data"] == []:
+                data = None
+
+    return render_template('home.html', data=data)
 
 @app.route("/market", methods=['GET', 'POST'])
 @login_required
@@ -18,6 +31,7 @@ def market():
 
     purchase_form = PurchaseItemForm()
     sell_form = SellItemForm()
+    create_item_form = CreateItemForm()
     
     if request.method == "POST":
         # Purchase Item Logic:
@@ -28,7 +42,7 @@ def market():
                 purchased_item_obj.buy(current_user)
                 flash(f'You purchased {purchased_item_obj.name} for ${purchased_item_obj.price}', category='success')
             else:
-                flash(f'Cannot purchase {purchased_item_obj.name}; not enough funds.', category='danger')
+                flash(f'Cannot purchase {purchased_item_obj.name}: not enough funds or {purchased_item_obj.name} is already owned.', category='danger')
         
 
         # Sell Item Logic
@@ -40,6 +54,18 @@ def market():
                 flash(f'You sold {sold_item_obj.name} for ${sold_item_obj.price}', category='success')
             else:
                 flash(f'Cannot sell {sold_item_obj.name}; you do not own this item.', category='danger')
+        
+        # Add Item Logic:
+        if create_item_form.validate_on_submit():
+            print("create item form works")
+            item_to_create = Item(name=create_item_form.name.data, 
+                              barcode=create_item_form.barcode.data,
+                              price=create_item_form.price.data,
+                              description=create_item_form.description.data)
+        
+            db.session.add(item_to_create)
+            db.session.commit()
+            flash(f'Item {item_to_create.name} added to market.', category='success')
 
         return redirect(url_for('market'))
         
@@ -48,7 +74,7 @@ def market():
         users = User.query.all() # returns all of the objects stored in the Users table in our sqlite db
         # sends the entire list of items above to the template
         owned_items = Item.query.filter_by(owner=current_user.id)
-        return render_template('market.html', items=items, users=users, purchase_form=purchase_form, sell_form=sell_form, owned_items=owned_items)
+        return render_template('market.html', items=items, users=users, purchase_form=purchase_form, sell_form=sell_form, owned_items=owned_items, create_item_form=create_item_form)
 
 # this is a dynamic route that renders uses the input of <username> when rendering the page
 @app.route("/about")
