@@ -1,0 +1,77 @@
+<!-- Jinja syntax to inherit template properties form the base.html template -->
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/market.css')}}">
+{% endblock %}
+
+{% block title %}
+<title>Market Page</title>
+{% endblock %}
+
+{% block body %}
+  <div class="container-sm">
+    <!-- Jinja syntax to access variables or other template data passed in from the backend -->
+    <!-- <p>All Items: {{ items }}</p> 
+    <p>All Users: {{ users }}</p>  -->
+  </div>
+
+  <div class="row" style="margin-top: 20px; margin-left: 20px;">
+    <div class="col-8">
+      <h2>Available Items</h2>
+      <table class="table table-hover table-dark">
+        <thead>
+          <tr>
+            <!-- Your Columns HERE-->
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Barcode</th>
+            <th scope="col">Price</th>
+            <th scope="col">Onwed by:</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+            <!-- Your Rows HERE-->
+            <!-- The percentage signs '%%' is jinja syntax that allsws you to write python logic such as loops, conditionals, if statements, etc.. -->
+          {% for item in items %}
+            {% include 'includes/items_modals.html' %} <!-- imports the contents of the includes/items_modals.html file into this file -->
+            <!-- By including the import of the modal inside of this loop, the modal has access to the "item" objects inside of the loop-->
+            <tr>
+              <th scope="row">{{ item.id }}</th>
+              <td>{{ item.name }}</td>
+              <td>{{ item.barcode }}</td>
+              <td>${{ item.price }}</td>
+              <td>{{ item.owned_user.username }}</td>
+              <td>
+                <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#infoModal-{{ item.id }}">More Info</button>
+                <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#purchaseModal-{{ item.id }}">Purchase</button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-4">
+      <h2>Owned Items</h2>
+      <div class="row">
+        {% for item in owned_items %}
+        <div class="col-md-6">
+            <div style="margin-bottom: 5px" class="card text-center bg-dark">
+                 <div class="card-body">
+                     <h5 class="card-title">{{ item.name }}</h5>
+                     <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px"
+                             data-toggle="modal" data-target="#sellModal-{{ item.id }}">
+                         Sell this Item
+                     </button>
+                     <p class="card-text"><strong>
+                         This item costs ${{ item.price }}
+                     </strong></p>
+                 </div>
+             </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

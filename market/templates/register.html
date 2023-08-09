@@ -1,0 +1,45 @@
+<!-- Jinja syntax to inherit template properties form the base.html template -->
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register.css')}}">
+{% endblock %}
+
+{% block title %}
+  <title>Register Page</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <form method="post" class="form-register" style="color:white">
+          {{ form.hidden_tag() }} <!-- adds a csrftoken to this form to protect from attacks-->
+          <img class="mb-4" src="{{ url_for('static', filename='images/robot-human-touch.jpg')}}" alt="">
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+            <br>
+            {{ form.username.label() }}
+            {{ form.username(class="form-control", placeholder="User Name") }}
+
+            {{ form.email_address.label() }}
+            {{ form.email_address(class="form-control", placeholder="hello@email.com") }}
+
+            {{ form.password1.label() }}
+            {{ form.password1(class="form-control") }}
+
+            {{ form.password2.label() }}
+            {{ form.password2(class="form-control") }}
+
+            <br>
+
+            <div class="checkbox mb-3">
+              <h6>Already registered?</h6>
+              <a class="btn btn-sm btn-secondary" href="{{ url_for('login') }}">Login</a>
+           </div>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+          </form>
+    </div>
+  
+{% endblock %}
