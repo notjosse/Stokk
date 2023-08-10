@@ -19,8 +19,8 @@
       <form method="post">
         <input id="export-json" name="export-json" type="hidden" value="{{ data }}">
         <button type="submit" class="btn btn-outline-light" style="margin-bottom: 15px;">Export to JSON</button>
+        <a class="btn btn-outline-light" href="{{ url_for('home') }}" style="margin-bottom: 15px; margin-left: 5px;">New Search</a>
       </form>
-      <a class="btn btn-outline-light" href="{{ url_for('home') }}" style="margin-bottom: 15px; margin-left: 5px;">New Search</a>
       <table class="table table-hover table-dark">
         <thead>
           <tr>
