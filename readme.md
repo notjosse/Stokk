@@ -1,7 +1,7 @@
 # Stock API Flask App
 
-This app will contain an api that returns data on queried stock market apps.
-The backend will call the iexcloud cloud api to fetch financial data.
+This app will return data on queried stock market tickers.
+The backend will call the Nasdaq api to fetch financial data.
 
 ## Import Requirements
 

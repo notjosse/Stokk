@@ -4,26 +4,39 @@ from stock_api.models import Item, User
 from stock_api.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm, CreateItemForm
 from stock_api import db
 from flask_login import login_user, logout_user, login_required, current_user
-import requests
+import requests, csv, json
 
 # routes to the home page if route is: / or /home
 @app.route("/", methods=['GET', 'POST'])
-@app.route("/home", methods=['GET', 'POST'])
+@app.route("/home/", methods=['GET', 'POST'])
 @login_required
 def home():
 
     data = None
 
-    if request.method == "POST":
-        ticker = request.form.get('stock-query')
-
+    if request.method == "GET":
+        # Historical Data Request
+        ticker = request.args.get('stock-query')
         if ticker and len(ticker) <= 4:
             r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte=1997-02-01&date.lte=2017-01-01&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key["key"]}')
             data = r.json()["datatable"]["data"]
             if r.json()["datatable"]["data"] == []:
                 data = None
 
-    return render_template('home.html', data=data)
+        return render_template('home.html', data=data)
+
+
+    if request.method == "POST":
+    # Download CSV Data:
+        export_data = request.form.get('export-json')
+        if export_data:
+            with open('./data.json', 'w', encoding='UTF8') as f:
+                json.dump(export_data, f)
+                
+            flash(f'Data exported to json file.', category='success')
+
+        return redirect(url_for('home'))
+    
 
 @app.route("/market", methods=['GET', 'POST'])
 @login_required
@@ -101,7 +114,7 @@ def register():
         login_user(user_to_create)
         flash(f'Account created successfully, you are now logged in as {user_to_create.username}', category='success')
 
-        return redirect(url_for('market'))
+        return redirect(url_for('home'))
 
 
     if form.errors != {}: # if there are errors from the validations
@@ -123,7 +136,7 @@ def login():
         ):
             login_user(attempted_user)
             flash(f'Success, you are logged in as {attempted_user.username}', category='success')
-            return redirect(url_for('market'))
+            return redirect(url_for('home'))
         else:
             flash('Incorrect username or password.', category='danger')
 
@@ -135,4 +148,9 @@ def login():
 def logout():
     logout_user()
     flash('You have logged out.', category='info')
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
+
+@app.route('/login2')
+@login_required
+def login2():
+    return render_template('login2.html')

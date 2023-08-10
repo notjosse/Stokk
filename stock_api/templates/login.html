@@ -10,10 +10,10 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container" style="margin-bottom: 20px;">
       <form method="POST" class="form-signin" style="color:white">
         {{ form.hidden_tag() }} <!-- adds a csrftoken to this form to protect from attacks-->
-        <img class="mb-4" src="{{ url_for('static', filename='images/reptile.jpg')}}" alt="">
+        <img class="img-fluid" src="{{ url_for('static', filename='images/bull.jpg')}}" style="margin-top: 15px; margin-bottom: 15px;" alt="">
         <h1 class="h3 mb-3 font-weight-normal">
             Please Login
         </h1>
@@ -34,7 +34,7 @@
 
         {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
 
-    </form>
+      </form>
     </div>
   
 {% endblock %}
