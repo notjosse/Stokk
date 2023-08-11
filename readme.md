@@ -36,6 +36,6 @@ If you have a Nasdaq api key and would like to use it when sending get requests,
 1. Create a new file in the root directory called `api_key.json`
 2. In the file, create a json object as follows:
     - {"key": "<your_actual_api_key>"}
-    - replace `<you_actual_api_key>` with your Nasdaq api key string
+    - replace `<your_actual_api_key>` with your Nasdaq api key string
 
 If you don't have an api key, a free one can be generated at: https://data.nasdaq.com/
