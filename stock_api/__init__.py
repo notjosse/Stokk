@@ -6,9 +6,9 @@ import json
 
 # Nasdaq api key
 try:
-    api_key = json.load(open('./api_key.json', 'r'))
+    api_key = json.load(open('./api_key.json', 'r'))["key"]
 except:
-    api_key = None
+    api_key = "no_key"
 
 
 # App Configs

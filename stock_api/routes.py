@@ -22,7 +22,7 @@ def home():
         # Historical Data Request
         ticker = request.args.get('stock-query')
         if ticker and len(ticker) <= 4:
-            r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte=1997-01-01&date.lte=2018-01-01&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key["key"]}')
+            r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte=1997-01-01&date.lte=2018-01-01&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key}')
             data = r.json()["datatable"]["data"]
             if r.json()["datatable"]["data"] == []:
                 data = None
