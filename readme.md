@@ -1,4 +1,4 @@
-# Stock API Flask App
+# Stokk
 
 This app will return data on queried stock market tickers.
 The backend will call the Nasdaq api to fetch financial data.
