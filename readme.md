@@ -34,7 +34,7 @@ If using python3:
 If you have a Nasdaq api key and would like to use it when sending get requests, do the following:
 
 1. Create a new file in the root directory called `api_key.json`
-2. In the file, create a json objects as follows:
+2. In the file, create a json object as follows:
     - {"key": "<your_actual_api_key>"}
     - replace `<you_actual_api_key>` with your Nasdaq api key string
 
