@@ -1,8 +1,7 @@
-# Sample Flask Market App
+# Stokk
 
-This app is based on a free course from freecodecamp.org posted to youtube.
-
-Video link: https://youtu.be/Qr4QMBUPxWo
+This app will return data on queried stock market tickers.
+The backend will call the Nasdaq api to fetch financial data.
 
 ## Import Requirements
 

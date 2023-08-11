@@ -1,0 +1,43 @@
+<!-- Add Item Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="background-color: #212121;">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Add an Item
+          </h1>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <form method="post" class="create_item_form-register" style="color:white">
+                  {{ create_item_form.hidden_tag() }} <!-- adds a csrftoken to this create_item_form to protect from attacks-->
+                    <h1 class="h3 mb-3 font-weight-normal">
+                        Item Details:
+                    </h1>
+                    <br>
+                    {{ create_item_form.name.label() }}
+                    {{ create_item_form.name(class="form-control", placeholder="") }}
+        
+                    {{ create_item_form.barcode.label() }}
+                    {{ create_item_form.barcode(class="form-control", placeholder="") }}
+        
+                    {{ create_item_form.price.label() }}
+                    {{ create_item_form.price(class="form-control") }}
+        
+                    {{ create_item_form.description.label() }}
+                    {{ create_item_form.description(class="form-control") }}
+        
+                    <br>
+        
+                    {{ create_item_form.submit(class="btn btn-lg btn-block btn-primary") }}
+        
+                  </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
