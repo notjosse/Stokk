@@ -1,14 +1,18 @@
 from stock_api import app, api_key
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, send_file
 from stock_api.models import Item, User
 from stock_api.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm, CreateItemForm
 from stock_api import db
 from flask_login import login_user, logout_user, login_required, current_user
 import requests, csv, json
 
-# routes to the home page if route is: / or /home
-@app.route("/", methods=['GET', 'POST'])
+# Route to redirect '/home/' --> '/'  
 @app.route("/home/", methods=['GET', 'POST'])
+def home_home():
+    return redirect(url_for('home'))
+
+# routes to the home page if route is: '/'
+@app.route("/", methods=['GET', 'POST'])
 @login_required
 def home():
 
@@ -18,7 +22,7 @@ def home():
         # Historical Data Request
         ticker = request.args.get('stock-query')
         if ticker and len(ticker) <= 4:
-            r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte=1997-02-01&date.lte=2017-01-01&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key["key"]}')
+            r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte=1997-01-01&date.lte=2018-01-01&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key["key"]}')
             data = r.json()["datatable"]["data"]
             if r.json()["datatable"]["data"] == []:
                 data = None
@@ -27,16 +31,16 @@ def home():
 
 
     if request.method == "POST":
-    # Download CSV Data:
+    # Download JSON Data:
         export_data = request.form.get('export-json')
         if export_data:
-            with open('./data.json', 'w', encoding='UTF8') as f:
+            with open('./stock_api/staging/data.json', 'w', encoding='UTF8') as f:
                 json.dump(export_data, f)
                 
-            flash(f'Data exported to json file.', category='success')
+            return send_file('./staging/data.json', as_attachment=True)
 
         return redirect(url_for('home'))
-    
+
 
 @app.route("/market", methods=['GET', 'POST'])
 @login_required
