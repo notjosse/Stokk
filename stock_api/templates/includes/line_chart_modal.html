@@ -1,20 +1,15 @@
 <!-- Line Chart Modal -->
 <div class="modal fade" id="lineChartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content" style="background-color: #212121;">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">
-            title
+            {{ data[0][1] }} Chart
           </h1>
           <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <canvas
-            data-mdb-chart="line"
-            data-mdb-dataset-label="Traffic"
-            data-mdb-labels="['Monday', 'Tuesday' , 'Wednesday' , 'Thursday' , 'Friday' , 'Saturday' , 'Sunday ']"
-            data-mdb-dataset-data="[2112, 2343, 2545, 3423, 2365, 1985, 987]"
-        ></canvas>
+            <canvas id="myChart"></canvas>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
