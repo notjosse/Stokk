@@ -41,7 +41,7 @@ for (let i = data_arr.length-1; i >= 0; i--){
 }
 
 // Build Line Chart
-new Chart(ctx, {
+let line_chart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: chart_labels,
@@ -59,6 +59,12 @@ new Chart(ctx, {
         y: {
           beginAtZero: false
         }
+      },
+      animation: {
+        onComplete: () => {
+          // Get the chart's base64 image string
+          ctx.setAttribute("base-64", line_chart.toBase64Image());
+        }
       }
     }
-  });
+});
