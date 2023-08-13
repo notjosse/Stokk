@@ -17,12 +17,17 @@ def home_home():
 def home():
 
     data = None
+    start_date, end_date = None, None
 
     if request.method == "GET":
         # Historical Data Request
+    
         ticker = request.args.get('stock-query')
+        start_date = request.args.get('start-date')
+        end_date = request.args.get('end-date')
+
         if ticker and len(ticker) <= 4:
-            r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte=1997-01-01&date.lte=2018-01-01&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key}')
+            r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte={start_date}&date.lte={end_date}&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key}')
             data = r.json()["datatable"]["data"]
             if r.json()["datatable"]["data"] == []:
                 data = None

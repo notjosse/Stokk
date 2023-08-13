@@ -62,8 +62,32 @@
     <div class="form-group" style="text-align: center; margin-top: 18%;">
         <h1>Historical Stock Data</h1>
         <label for=""></label>
-        <input name="stock-query" class="form-control form-control-lg" type="text" placeholder="TSLA">
-        <small id="tickerHelp" class="form-text text-muted">Enter the ticker symbol of a publicly traded stock listed on the Nasdaq.</small>
+        <div class="row">
+          <div class="col form-group">
+            <label for="start" class="col-form-label-lg">Start date:</label>
+            <input type="date" class="form-control-lg" id="start_date" name="start-date" min="1997-01-01" max="2017-12-31" required/>
+            <div class="invalid-feedback">
+              Please enter a start date.
+            </div>
+          </div>
+          <div class="col form-group">
+            <label for="end" class="col-form-label-lg">End date:</label>
+            <input type="date" class="form-control-lg" id="end_date" name="end-date" min="1997-01-01" max="2017-12-31" required/>
+            <div class="invalid-feedback">
+              Please enter an end date.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input name="stock-query" class="form-control form-control-lg" type="text" placeholder="TSLA" required>
+            <div class="invalid-feedback">
+              This cannot be empty.
+            </div>
+            <small id="tickerHelp" class="form-text text-muted">Enter the ticker symbol of a publicly traded stock listed on the Nasdaq.</small>
+          </div>
+        </div>
+        
         <button type="submit" class="btn btn-outline-light btn-lg" style="margin-top: 10px;">Search</button>     
     </div>
   </form>
