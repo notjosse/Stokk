@@ -158,8 +158,3 @@ def logout():
     logout_user()
     flash('You have logged out.', category='info')
     return redirect(url_for('login'))
-
-@app.route('/login2')
-@login_required
-def login2():
-    return render_template('login2.html')
