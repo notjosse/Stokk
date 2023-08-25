@@ -4,7 +4,7 @@ from stock_api.models import Item, User
 from stock_api.forms import RegisterForm, LoginForm
 from stock_api import db
 from flask_login import login_user, logout_user, login_required, current_user
-import requests, csv, json
+import requests, json
 
 # Route to redirect '/home/' --> '/'  
 @app.route("/home/", methods=['GET', 'POST'])
