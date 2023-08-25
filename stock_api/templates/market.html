@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/market.css')}}">
+<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/market.css')}}"> -->
 {% endblock %}
 
 {% block title %}
@@ -10,11 +10,6 @@
 {% endblock %}
 
 {% block body %}
-  <div class="container-sm">
-    <!-- Jinja syntax to access variables or other template data passed in from the backend -->
-    <!-- <p>All Items: {{ items }}</p> 
-    <p>All Users: {{ users }}</p>  -->
-  </div>
 
   <div class="row" style="margin-top: 20px; margin-left: 20px;">
     <div class="col-8">
