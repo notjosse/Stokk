@@ -3,3 +3,5 @@
 market/__pycache__
 api_key.json
 data.json
+/instance/*.db
+/staging/*.json

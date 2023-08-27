@@ -28,3 +28,14 @@ or
 
 If using python3:
 - `python3 -m pip freeze > requirements.txt`
+
+## Nasdaq API Key
+
+If you have a Nasdaq api key and would like to use it when sending get requests, do the following:
+
+1. Create a new file in the root directory called `api_key.json`
+2. In the file, create a json object as follows:
+    - {"key": "<your_actual_api_key>"}
+    - replace `<your_actual_api_key>` with your Nasdaq api key string
+
+If you don't have an api key, a free one can be generated at: https://data.nasdaq.com/

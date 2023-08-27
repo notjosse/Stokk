@@ -5,7 +5,11 @@ from flask_login import LoginManager
 import json
 
 # Nasdaq api key
-api_key = json.load(open('./api_key.json', 'r'))
+try:
+    api_key = json.load(open('./api_key.json', 'r'))["key"]
+except:
+    api_key = "no_key"
+
 
 # App Configs
 app = Flask(__name__)
