@@ -22,14 +22,22 @@ def home():
     if request.method == "GET":
         # Historical Data Request
     
+        if current_user.get_budget() < 50:
+            flash(f'You do not have enough coins to make this request.', category='danger')
+
         ticker = request.args.get('stock-query')
         start_date = request.args.get('start-date')
         end_date = request.args.get('end-date')
 
+        # start date must always be less than or equal to the end date
+        if start_date and start_date > end_date:
+            return render_template('home.html', data=data)
+
+
         if ticker and len(ticker) <= 4 and current_user.get_budget() >= 50:
             # reduce the budget by 50 coins 
             current_user.reduce_budget()
-            
+
             # make the request to the nasdaq api
             r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte={start_date}&date.lte={end_date}&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key}')
             data = r.json()["datatable"]["data"]
