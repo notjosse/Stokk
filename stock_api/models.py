@@ -25,3 +25,9 @@ class User(db.Model, UserMixin):
     def check_password(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
+    def get_budget(self):
+        return db.session.execute(db.select(User.budget).where(User.username == self.username)).scalar()
+
+    def reduce_budget(self):
+        self.budget = self.budget - 50
+        db.session.commit()

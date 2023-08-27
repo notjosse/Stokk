@@ -26,7 +26,11 @@ def home():
         start_date = request.args.get('start-date')
         end_date = request.args.get('end-date')
 
-        if ticker and len(ticker) <= 4:
+        if ticker and len(ticker) <= 4 and current_user.get_budget() >= 50:
+            # reduce the budget by 50 coins 
+            current_user.reduce_budget()
+            
+            # make the request to the nasdaq api
             r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte={start_date}&date.lte={end_date}&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key}')
             data = r.json()["datatable"]["data"]
             if r.json()["datatable"]["data"] == []:
