@@ -78,10 +78,14 @@
               This cannot be empty.
             </div>
             <small id="tickerHelp" class="form-text text-muted">Enter the ticker symbol of a publicly traded stock listed on the Nasdaq.</small>
+            <small id="tickerHelp" class="form-text text-muted">Note: Every request costs 50 coins.</small>
           </div>
         </div>
         
         <button type="submit" class="btn btn-outline-light btn-lg" style="margin-top: 10px;">Search</button>     
+        {% if current_user.budget < 50 %}
+        <a href="{{ url_for('reload')}}" class="btn btn-outline-success btn-lg" style="margin-top: 10px;">Reload Coins</a>
+        {%endif%}
     </div>
   </form>
   {%endif%}

@@ -21,9 +21,6 @@ def home():
 
     if request.method == "GET":
         # Historical Data Request
-    
-        if current_user.get_budget() < 50:
-            flash(f'You do not have enough coins to make this request.', category='danger')
 
         ticker = request.args.get('stock-query')
         start_date = request.args.get('start-date')
@@ -32,6 +29,10 @@ def home():
         # start date must always be less than or equal to the end date
         if start_date and start_date > end_date:
             return render_template('home.html', data=data)
+
+        # If the current user doesn't have enough coins let them know
+        if start_date and current_user.get_budget() < 50:
+            flash(f'You do not have enough coins to make this request.', category='danger')
 
 
         if ticker and len(ticker) <= 4 and current_user.get_budget() >= 50:
@@ -58,6 +59,13 @@ def home():
 
         return redirect(url_for('home'))
 
+
+@app.route('/reload')
+@login_required
+def reload():
+    current_user.budget = 1000
+    db.session.commit()
+    return redirect(url_for('home'))
 
 # Route that handles requests and renders the template for the Register Page; handles get and post requests
 @app.route('/register', methods=['GET', 'POST'])
