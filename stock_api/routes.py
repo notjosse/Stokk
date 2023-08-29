@@ -63,8 +63,13 @@ def home():
 @app.route('/reload')
 @login_required
 def reload():
-    current_user.budget = 1000
-    db.session.commit()
+    if current_user.reloads > 0:
+        flash(f'Cannot request additional coin reloads.', category='danger')
+
+    if current_user.budget < 50 and current_user.reloads == 0:
+        flash(f'Your coins have been reloaded.', category='success')
+        current_user.reload_coins()
+        
     return redirect(url_for('home'))
 
 # Route that handles requests and renders the template for the Register Page; handles get and post requests
