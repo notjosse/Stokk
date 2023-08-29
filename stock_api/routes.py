@@ -21,12 +21,25 @@ def home():
 
     if request.method == "GET":
         # Historical Data Request
-    
+
         ticker = request.args.get('stock-query')
         start_date = request.args.get('start-date')
         end_date = request.args.get('end-date')
 
-        if ticker and len(ticker) <= 4:
+        # start date must always be less than or equal to the end date
+        if start_date and start_date > end_date:
+            return render_template('home.html', data=data)
+
+        # If the current user doesn't have enough coins let them know
+        if start_date and current_user.get_budget() < 50:
+            flash(f'You do not have enough coins to make this request.', category='danger')
+
+
+        if ticker and len(ticker) <= 4 and current_user.get_budget() >= 50:
+            # reduce the budget by 50 coins 
+            current_user.reduce_budget()
+
+            # make the request to the nasdaq api
             r = requests.get(f'https://data.nasdaq.com/api/v3/datatables/WIKI/PRICES?date.gte={start_date}&date.lte={end_date}&ticker={ticker}&qopts.columns=date,ticker,open,high,low,close,volume&api_key={api_key}')
             data = r.json()["datatable"]["data"]
             if r.json()["datatable"]["data"] == []:
@@ -46,6 +59,18 @@ def home():
 
         return redirect(url_for('home'))
 
+
+@app.route('/reload')
+@login_required
+def reload():
+    if current_user.reloads > 0:
+        flash(f'Cannot request additional coin reloads.', category='danger')
+
+    if current_user.budget < 50 and current_user.reloads == 0:
+        flash(f'Your coins have been reloaded.', category='success')
+        current_user.reload_coins()
+        
+    return redirect(url_for('home'))
 
 # Route that handles requests and renders the template for the Register Page; handles get and post requests
 @app.route('/register', methods=['GET', 'POST'])

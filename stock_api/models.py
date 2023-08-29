@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
     budget = db.Column(db.Integer(), nullable=False, default=1000)
+    reloads = db.Column(db.Integer(), nullable=False, default=0)
 
     @property
     def password(self):
@@ -25,3 +26,14 @@ class User(db.Model, UserMixin):
     def check_password(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
+    def get_budget(self):
+        return db.session.execute(db.select(User.budget).where(User.username == self.username)).scalar()
+
+    def reduce_budget(self):
+        self.budget = self.budget - 50
+        db.session.commit()
+    
+    def reload_coins(self):
+        self.budget = 1000
+        self.reloads += 1
+        db.session.commit()
