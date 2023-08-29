@@ -75,6 +75,10 @@ def reload():
 # Route that handles requests and renders the template for the Register Page; handles get and post requests
 @app.route('/register', methods=['GET', 'POST'])
 def register(): 
+
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+
     form = RegisterForm()
 
     # Verify the fields from the FORM and make sure the user has clicked on the 'submit' button
@@ -102,6 +106,10 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+
     form = LoginForm()
 
     if form.validate_on_submit():
