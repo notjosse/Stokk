@@ -1,7 +1,6 @@
 # Stokk
 
-This app will return data on queried stock market tickers.
-The backend will call the Nasdaq api to fetch financial data.
+This app call the Nasdaq data api to fetch historical financial data on valid Nasdaq stock tickers.
 
 ## Import Requirements
 
