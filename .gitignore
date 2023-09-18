@@ -5,3 +5,5 @@ api_key.json
 data.json
 /instance/*.db
 /staging/*.json
+/venv/
+.pytest_cache

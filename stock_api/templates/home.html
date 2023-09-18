@@ -21,7 +21,7 @@
         <input id="export-json" name="export-json" type="hidden" value="{{ data }}">
         <button type="submit" class="btn btn-outline-light" style="margin-bottom: 15px;">Export to JSON</button>
         <button type="button" class="btn btn-outline-light" style="margin-bottom: 15px; margin-left: 5px;" data-toggle="modal" data-target="#lineChartModal">View Chart</button>
-        <a class="btn btn-outline-light" href="{{ url_for('home') }}" style="margin-bottom: 15px; margin-left: 5px;">New Search</a>
+        <a class="btn btn-outline-light" href="{{ url_for('main.home') }}" style="margin-bottom: 15px; margin-left: 5px;">New Search</a>
       </form>
       <table id="historical-data-table" class="table table-striped table-hover table-light table-fluid">
         <thead class="thead-dark">
@@ -84,7 +84,7 @@
         
         <button type="submit" class="btn btn-outline-light btn-lg" style="margin-top: 10px;">Search</button>     
         {% if current_user.budget < 50 and current_user.reloads == 0 %}
-        <a href="{{ url_for('reload')}}" class="btn btn-outline-success btn-lg" style="margin-top: 10px;">Reload Coins</a>
+        <a href="{{ url_for('main.reload')}}" class="btn btn-outline-success btn-lg" style="margin-top: 10px;">Reload Coins</a>
         {%endif%}
     </div>
   </form>
