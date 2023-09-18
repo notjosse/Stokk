@@ -1,18 +1,20 @@
-from stock_api import app, api_key
-from flask import render_template, redirect, url_for, flash, request, send_file
+from flask import render_template, redirect, url_for, flash, request, send_file, Blueprint
+from .extensions import api_key
 from stock_api.models import User
 from stock_api.forms import RegisterForm, LoginForm
 from stock_api import db
 from flask_login import login_user, logout_user, login_required, current_user
 import requests, json
 
+main = Blueprint("main", __name__)
+
 # Route to redirect '/home/' --> '/'  
-@app.route("/home/", methods=['GET', 'POST'])
+@main.route("/home/", methods=['GET', 'POST'])
 def home_home():
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 
 # routes to the home page if route is: '/'
-@app.route("/", methods=['GET', 'POST'])
+@main.route("/", methods=['GET', 'POST'])
 @login_required
 def home():
 
@@ -57,10 +59,10 @@ def home():
                 
             return send_file('./staging/data.json', as_attachment=True)
 
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
 
 
-@app.route('/reload')
+@main.route('/reload')
 @login_required
 def reload():
     if current_user.reloads > 0:
@@ -70,14 +72,14 @@ def reload():
         flash(f'Your coins have been reloaded.', category='success')
         current_user.reload_coins()
         
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 
 # Route that handles requests and renders the template for the Register Page; handles get and post requests
-@app.route('/register', methods=['GET', 'POST'])
+@main.route('/register', methods=['GET', 'POST'])
 def register(): 
 
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
 
     form = RegisterForm()
 
@@ -94,7 +96,7 @@ def register():
         login_user(user_to_create)
         flash(f'Account created successfully, you are now logged in as {user_to_create.username}', category='success')
 
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
 
 
     if form.errors != {}: # if there are errors from the validations
@@ -104,11 +106,11 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
 
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
 
     form = LoginForm()
 
@@ -121,7 +123,7 @@ def login():
         ):
             login_user(attempted_user)
             flash(f'Success, you are logged in as {attempted_user.username}', category='success')
-            return redirect(url_for('home'))
+            return redirect(url_for('main.home'))
         else:
             flash('Incorrect username or password.', category='danger')
 
@@ -129,8 +131,8 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/logout')
+@main.route('/logout')
 def logout():
     logout_user()
     flash('You have logged out.', category='info')
-    return redirect(url_for('login'))
+    return redirect(url_for('main.login'))
