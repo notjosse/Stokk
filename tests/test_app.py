@@ -1,5 +1,7 @@
-# Sample test class
 
-class TestClass:
-    def test_always_true(self):
-        assert True
+def test_always_true():
+    assert True
+
+def test_login(client):
+    response = client.get("/login")
+    assert response.status_code == 200
