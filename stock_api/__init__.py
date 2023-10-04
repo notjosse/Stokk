@@ -1,7 +1,9 @@
 from flask import Flask
 
 from .extensions import db, login_manager, bcrypt
-from .routes import main
+from .blueprints.authentication.authentication import authentication_bp
+from .blueprints.historical_data.historical_data import historical_data_bp
+from .blueprints.coins.coins import coins_bp
 
 def create_app(database_uri="sqlite:///stock_api.db"):
     # App Configs
@@ -17,11 +19,13 @@ def create_app(database_uri="sqlite:///stock_api.db"):
 
     # Login Manager Configs
     login_manager.init_app(app)
-    login_manager.login_view = "main.login" # name of the route to our login page
+    login_manager.login_view = "authentication.login" # name of the blueprint.route to our login page
     login_manager.login_message_category = "info" # category for our flash message
     login_manager.login_message = "Please login or register an account." # flash message contents  
 
-    # Routes Blueprint
-    app.register_blueprint(main)
+    # Routes Blueprints
+    app.register_blueprint(authentication_bp)
+    app.register_blueprint(historical_data_bp)
+    app.register_blueprint(coins_bp)
 
     return app
