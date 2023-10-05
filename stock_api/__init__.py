@@ -4,6 +4,7 @@ from .extensions import db, login_manager, bcrypt
 from .blueprints.authentication.authentication import authentication_bp
 from .blueprints.historical_data.historical_data import historical_data_bp
 from .blueprints.coins.coins import coins_bp
+from .blueprints.options_data.options_data import options_data_bp
 
 def create_app(database_uri="sqlite:///stock_api.db"):
     # App Configs
@@ -27,5 +28,6 @@ def create_app(database_uri="sqlite:///stock_api.db"):
     app.register_blueprint(authentication_bp)
     app.register_blueprint(historical_data_bp)
     app.register_blueprint(coins_bp)
+    app.register_blueprint(options_data_bp)
 
     return app
