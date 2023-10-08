@@ -1,4 +1,4 @@
-# Stokk
+# Stokk.guru
 
 This app call the Nasdaq data api to fetch historical financial data on valid Nasdaq stock tickers.
 
