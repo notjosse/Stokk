@@ -10,7 +10,7 @@ options_data_bp = Blueprint("options_data", __name__, template_folder="templates
 @login_required
 def options():
 
-    tickers = ['AAPL', 'FB']
+    tickers = ['AAPL']
     ticker_data = {}
 
     for ticker in tickers:
@@ -25,8 +25,15 @@ def options():
     df = options.calls
     options_dict = df.to_dict()
 
-    print(options_dict.keys())
+    final_data = []
 
-    return options_dict
+    # Desired Data List
+    lst = ['strike', 'bid', 'ask', 'lastPrice', 'change', 'volume', 'openInterest', 'inTheMoney']
 
-    # return render_template('options.html', data=options_dict)
+    for i in range(len(options_dict['bid'].keys())):
+        temp_list = []
+        for category in lst:
+            temp_list.append(options_dict[category][i])
+        final_data.append(temp_list)
+
+    return render_template('options.html', data=final_data)
