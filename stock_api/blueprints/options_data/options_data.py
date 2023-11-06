@@ -42,4 +42,7 @@ def options(ticker='AAPL'):
             temp_list.append(options_dict[category][i])
         final_data.append(temp_list)
 
-    return render_template('options.html', data=final_data, ticker=ticker, exp_date=datetime.datetime.strptime(exp_date, '%Y-%m-%d'))
+    # Convert exp_date from string to datetime object
+    exp_date = datetime.datetime.strptime(exp_date, '%Y-%m-%d')
+
+    return render_template('options.html', data=final_data, ticker=ticker, exp_date=exp_date)
